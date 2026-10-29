@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>INFOLABZ Diwali Tambola</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #f3f7ff;
+            --bg2: #dfeaff;
+            --card: #ffffff;
+            --text: #0b2a63;
+            --muted: #5a72a0;
+            --accent: #e08a00;
+            --accent2: #ffc247;
+            --blue: #1769e0;
+            --cell: #eef3ff;
+            --cellText: #47629a;
+            --border: rgba(23, 105, 224, .18);
+            --shadow: 0 10px 30px rgba(23, 105, 224, .15);
+            --onGold: #3a2200;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        
+        @media (prefers-color-scheme:dark) {
+             :root:not([data-theme="light"]) {
+                --bg: #06173a;
+                --bg2: #0b2a63;
+                --card: rgba(255, 255, 255, .06);
+                --text: #eaf2ff;
+                --muted: #9db6e0;
+                --accent: #ffb02e;
+                --accent2: #ffd36b;
+                --blue: #4b9bff;
+                --cell: rgba(255, 255, 255, .06);
+                --cellText: #8fa9d8;
+                --border: rgba(255, 255, 255, .12);
+                --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+                --onGold: #3a2200;
+                color-scheme: dark;
+            }
+        }
+        
+         :root[data-theme="dark"] {
+            --bg: #06173a;
+            --bg2: #0b2a63;
+            --card: rgba(255, 255, 255, .06);
+            --text: #eaf2ff;
+            --muted: #9db6e0;
+            --accent: #ffb02e;
+            --accent2: #ffd36b;
+            --blue: #4b9bff;
+            --cell: rgba(255, 255, 255, .06);
+            --cellText: #8fa9d8;
+            --border: rgba(255, 255, 255, .12);
+            --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            --onGold: #3a2200;
+            color-scheme: dark;
+        }
+        
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+            color: var(--text);
+            background: radial-gradient(1200px 600px at 80% -10%, var(--bg2), transparent 60%), var(--bg);
+            position: relative;
+            overflow-x: hidden
+        }
+        
+        .spark {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0
+        }
+        
+        .spark i {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent2);
+            opacity: 0;
+            animation: tw 4s infinite
+        }
+        
+        @keyframes tw {
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(.4)
+            }
+            50% {
+                opacity: .8;
+                transform: scale(1.2)
+            }
+        }
+        
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 14px
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 4px 16px
+        }
+        
+        .logo {
+            width: 56px;
+            height: 56px;
+            flex: none;
+            filter: drop-shadow(0 0 10px var(--accent))
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: clamp(1.15rem, 3vw, 2rem);
+            font-weight: 800;
+            letter-spacing: .3px
+        }
+        
+        header h1 span {
+            color: var(--accent)
+        }
+        
+        header p {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: .9rem
+        }
+        
+        .spacer {
+            flex: 1
+        }
+        
+        .icon-btn {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 1.05rem
+        }
+        
+        .layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 16px;
+            align-items: start
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            padding: 18px;
+            backdrop-filter: blur(8px)
+        }
+        
+        .ball-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 6px 0 12px
+        }
+        
+        .ball {
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            position: relative;
+            background: radial-gradient(circle at 32% 28%, #fff8dc 0, var(--accent2) 28%, var(--accent) 70%, #b36a00 100%);
+            box-shadow: 0 0 0 8px rgba(255, 176, 46, .18), 0 0 50px rgba(255, 176, 46, .55), inset 0 -12px 24px rgba(0, 0, 0, .2);
+            color: var(--onGold)
+        }
+        
+        .ball b {
+            font-size: 5.6rem;
+            font-weight: 800;
+            line-height: 1
+        }
+        
+        .ball.idle b {
+            font-size: 1.15rem;
+            text-align: center;
+            padding: 0 30px;
+            font-weight: 700
+        }
+        
+        .ball.pop {
+            animation: pop .5s cubic-bezier(.2, 1.6, .4, 1)
+        }
+        
+        .ball.rolling {
+            animation: shake .12s infinite
+        }
+        
+        @keyframes pop {
+            0% {
+                transform: scale(.6)
+            }
+            100% {
+                transform: scale(1)
+            }
+        }
+        
+        @keyframes shake {
+            0%,
+            100% {
+                transform: rotate(-3deg)
+            }
+            50% {
+                transform: rotate(3deg)
+            }
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 8px 0 14px
+        }
+        
+        .stat {
+            background: var(--cell);
+            border-radius: 14px;
+            padding: 10px;
+            text-align: center
+        }
+        
+        .stat b {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--accent)
+        }
+        
+        .stat small {
+            color: var(--muted)
+        }
+        
+        .btn {
+            width: 100%;
+            border: 0;
+            border-radius: 16px;
+            padding: 14px;
+            font: inherit;
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            color: var(--onGold);
+            background: linear-gradient(135deg, var(--accent2), var(--accent));
+            box-shadow: 0 8px 20px rgba(255, 176, 46, .35);
+            transition: transform .15s
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px)
+        }
+        
+        .btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none
+        }
+        
+        .row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap
+        }
+        
+        .chip {
+            flex: 1;
+            min-width: 90px;
+            background: var(--cell);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 9px 8px;
+            font: inherit;
+            font-size: .85rem;
+            cursor: pointer
+        }
+        
+        .chip.on {
+            background: var(--blue);
+            color: #fff;
+            border-color: transparent
+        }
+        
+        select.chip {
+            appearance: none;
+            text-align: center
+        }
+        
+        h3 {
+            margin: 16px 0 8px;
+            font-size: .95rem;
+            color: var(--muted);
+            font-weight: 600
+        }
+        
+        .recent {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            min-height: 44px
+        }
+        
+        .recent span {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            background: var(--blue);
+            color: #fff
+        }
+        
+        .recent span:first-child {
+            background: var(--accent);
+            color: var(--onGold)
+        }
+        
+        .board {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: clamp(5px, .8vw, 10px)
+        }
+        
+        .cell {
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            border-radius: clamp(10px, 1.4vw, 16px);
+            background: var(--cell);
+            color: var(--cellText);
+            font-weight: 700;
+            font-size: clamp(.9rem, 2.2vw, 1.8rem);
+            border: 1px solid var(--border);
+            transition: all .25s
+        }
+        
+        .cell.active {
+            background: linear-gradient(135deg, var(--accent2), var(--accent));
+            color: var(--onGold);
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(255, 176, 46, .5)
+        }
+        
+        .cell.latest {
+            animation: glow 1.2s ease-in-out infinite;
+            transform: scale(1.12)
+        }
+        
+        @keyframes glow {
+            50% {
+                box-shadow: 0 0 0 6px rgba(255, 176, 46, .35), 0 0 24px var(--accent)
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 18px 8px;
+            font-size: .9rem
+        }
+        
+        .footer span {
+            color: var(--accent);
+            font-weight: 700
+        }
+        
+        @media (max-width:900px) {
+            .layout {
+                grid-template-columns: 1fr
+            }
+            .ball {
+                width: 170px;
+                height: 170px
+            }
+            .ball b {
+                font-size: 4.4rem
+            }
+        }
+        
+        @media (max-width:560px) {
+            .board {
+                grid-template-columns: repeat(9, 1fr);
+                gap: 4px
+            }
+            .wrap {
+                padding: 10px
+            }
+            header p {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="spark" id="spark"></div>
+    <div class="wrap">
+        <header>
+            <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M32 6c6 8 8 13 0 20-8-7-6-12 0-20z" fill="#ffb02e"/>
+      <path d="M32 12c3 4 4 7 0 10-4-3-3-6 0-10z" fill="#fff3b0"/>
+      <path d="M6 36h52c0 12-11 22-26 22S6 48 6 36z" fill="#1769e0"/>
+      <path d="M6 36h52" stroke="#ffc247" stroke-width="3"/>
+    </svg>
+            <div>
+                <h1><span>INFOLABZ</span> Diwali Tambola</h1>
+                <p>Digital Housie · Numbers 1 to 90</p>
+            </div>
+            <div class="spacer"></div>
+            <button class="icon-btn" id="theme" title="Toggle theme" aria-label="Toggle theme">🌓</button>
+        </header>
+
+        <div class="layout">
+            <section class="card">
+                <div class="ball-wrap">
+                    <div class="ball idle" id="ball"><b id="num">Press Next Number to begin</b></div>
+                </div>
+                <div class="stats">
+                    <div class="stat"><b id="calledCount">0</b><small>Called</small></div>
+                    <div class="stat"><b id="leftCount">90</b><small>Remaining</small></div>
+                </div>
+                <button class="btn" id="next">🪔 Next Number</button>
+                <div class="row">
+                    <button class="chip" id="auto">⏱ Auto: Off</button>
+                    <select class="chip" id="speed" aria-label="Auto-call speed">
+          <option value="4000">Fast · 4s</option>
+          <option value="6000" selected>Normal · 6s</option>
+          <option value="9000">Slow · 9s</option>
+        </select>
+                </div>
+                <div class="row">
+                    <button class="chip on" id="voice">🔊 Voice: On</button>
+                    <button class="chip" id="reset">↺ New Game</button>
+                </div>
+                <h3>Last called</h3>
+                <div class="recent" id="recent"></div>
+                <h3>Tip: press Space to call the next number</h3>
+            </section>
+
+            <section class="card">
+                <div class="board" id="board"></div>
+            </section>
+        </div>
+
+        <div class="footer">✨ Wishing you a <span>Bright &amp; Joyful</span> Diwali from <b>INFOLABZ IT Services Pvt. Ltd.</b> ✨</div>
+    </div>
+
+    <script>
+        (function() {
+            var KEY = "infolabz-tambola-v1";
+            var called = [],
+                rolling = false,
+                timer = null,
+                voiceOn = true;
+            var $ = function(id) {
+                return document.getElementById(id)
+            };
+            var board = $("board"),
+                ball = $("ball"),
+                num = $("num");
+
+            // sparkles
+            var sp = $("spark");
+            for (var i = 0; i < 26; i++) {
+                var d = document.createElement("i");
+                d.style.left = Math.random() * 100 + "%";
+                d.style.top = Math.random() * 100 + "%";
+                d.style.animationDelay = (Math.random() * 4) + "s";
+                d.style.animationDuration = (3 + Math.random() * 3) + "s";
+                sp.appendChild(d);
+            }
+
+            // board
+            for (var n = 1; n <= 90; n++) {
+                var c = document.createElement("div");
+                c.className = "cell";
+                c.id = "c" + n;
+                c.textContent = n;
+                board.appendChild(c);
+            }
+
+            function save() {
+                try {
+                    localStorage.setItem(KEY, JSON.stringify(called))
+                } catch (e) {}
+            }
+
+            function load() {
+                try {
+                    var s = JSON.parse(localStorage.getItem(KEY) || "[]");
+                    if (Array.isArray(s)) called = s.filter(function(x) {
+                        return x >= 1 && x <= 90
+                    })
+                } catch (e) {
+                    called = []
+                }
+            }
+
+            function render() {
+                for (var n = 1; n <= 90; n++) {
+                    var el = $("c" + n);
+                    el.classList.remove("active", "latest");
+                }
+                called.forEach(function(n) {
+                    $("c" + n).classList.add("active")
+                });
+                var last = called[called.length - 1];
+                if (last) {
+                    $("c" + last).classList.add("latest");
+                    ball.classList.remove("idle");
+                    num.textContent = last;
+                } else {
+                    ball.classList.add("idle");
+                    num.textContent = "Press Next Number to begin";
+                }
+                $("calledCount").textContent = called.length;
+                $("leftCount").textContent = 90 - called.length;
+                $("recent").innerHTML = called.slice(-6).reverse().map(function(n) {
+                    return "<span>" + n + "</span>"
+                }).join("");
+                $("next").disabled = rolling || called.length >= 90;
+                if (called.length >= 90) {
+                    ball.classList.remove("idle");
+                    num.textContent = "🎉";
+                    stopAuto();
+                }
+            }
+
+            function speak(n) {
+                if (!voiceOn || !("speechSynthesis" in window)) return;
+                try {
+                    speechSynthesis.cancel();
+                    var t = "Number " + n + (n > 9 ? ". " + String(n).split("").join(" ") : "");
+                    var u = new SpeechSynthesisUtterance(t);
+                    u.rate = .9;
+                    speechSynthesis.speak(u);
+                } catch (e) {}
+            }
+
+            function next() {
+                if (rolling || called.length >= 90) return;
+                var pool = [];
+                for (var n = 1; n <= 90; n++)
+                    if (called.indexOf(n) < 0) pool.push(n);
+                var pick = pool[Math.floor(Math.random() * pool.length)];
+                rolling = true;
+                $("next").disabled = true;
+                ball.classList.remove("idle", "pop");
+                ball.classList.add("rolling");
+                var t = 0,
+                    iv = setInterval(function() {
+                        num.textContent = 1 + Math.floor(Math.random() * 90);
+                        if (++t >= 10) {
+                            clearInterval(iv);
+                            rolling = false;
+                            ball.classList.remove("rolling");
+                            called.push(pick);
+                            save();
+                            render();
+                            void ball.offsetWidth;
+                            ball.classList.add("pop");
+                            speak(pick);
+                        }
+                    }, 70);
+            }
+
+            function stopAuto() {
+                if (timer) {
+                    clearInterval(timer);
+                    timer = null
+                }
+                $("auto").classList.remove("on");
+                $("auto").textContent = "⏱ Auto: Off"
+            }
+
+            function startAuto() {
+                stopAuto();
+                next();
+                timer = setInterval(next, parseInt($("speed").value, 10));
+                $("auto").classList.add("on");
+                $("auto").textContent = "⏱ Auto: On";
+            }
+
+            $("next").addEventListener("click", next);
+            $("auto").addEventListener("click", function() {
+                timer ? stopAuto() : startAuto()
+            });
+            $("speed").addEventListener("change", function() {
+                if (timer) startAuto()
+            });
+            $("voice").addEventListener("click", function() {
+                voiceOn = !voiceOn;
+                this.classList.toggle("on", voiceOn);
+                this.textContent = "🔊 Voice: " + (voiceOn ? "On" : "Off");
+                if (!voiceOn && "speechSynthesis" in window) try {
+                    speechSynthesis.cancel()
+                } catch (e) {}
+            });
+            $("reset").addEventListener("click", function() {
+                if (called.length && !confirm("Start a new game? All called numbers will be cleared.")) return;
+                stopAuto();
+                called = [];
+                save();
+                render();
+            });
+            $("theme").addEventListener("click", function() {
+                var r = document.documentElement,
+                    cur = r.getAttribute("data-theme");
+                if (!cur) cur = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                r.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+            });
+            document.addEventListener("keydown", function(e) {
+                if (e.code === "Space" && e.target.tagName !== "SELECT") {
+                    e.preventDefault();
+                    next();
+                }
+            });
+
+            load();
+            render();
+        })();
+    </script>
+</body>
+
+</html>
